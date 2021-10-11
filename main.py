@@ -1,11 +1,13 @@
 from modules.Weather import Weather
+from modules.Pedestrian import Pedestrian
 import lgsvl
 
 sim = lgsvl.Simulator("127.0.0.1", 8181)
 
 weather_module = Weather()
+pedestrian_module = Pedestrian()
 
-for _ in range(10):
+for _ in range(5):
     if sim.current_scene == "BorregasAve":
         sim.reset()
     else:
@@ -18,19 +20,7 @@ for _ in range(10):
 
     ego = sim.add_agent("2e9095fa-c9b9-4f3f-8d7d-65fa2bb03921", lgsvl.AgentType.EGO, state)
 
-    weather_config = weather_module.generate()
+    weather_module.generate(sim)
+    pedestrian_module.generate(sim)
 
-    # w = sim.weather
-    w = lgsvl.simulator.WeatherState(
-        weather_config["rain"],
-        weather_config["fog"],
-        weather_config["wetness"],
-        weather_config["cloudiness"],
-        weather_config["damage"]
-    )
-
-    sim.weather=w
-
-    sim.set_time_of_day(weather_config["time_of_day"])
-
-    sim.run(5)
+    sim.run(10)
