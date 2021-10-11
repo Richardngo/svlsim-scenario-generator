@@ -1,4 +1,5 @@
 import random
+import lgsvl
 
 
 class Weather:
@@ -11,7 +12,7 @@ class Weather:
         "damage": 0
     }
     
-    def generate(self):
+    def generate(self, sim):
 
         # randomly select how many properties to set
         num_properties = random.randint(0, len(self.properties.keys()))
@@ -25,4 +26,14 @@ class Weather:
         # set time of day (hour) randomly between 0 and 24
         config["time_of_day"] = random.randint(0, 24)
 
-        return config
+        w = lgsvl.simulator.WeatherState(
+            config["rain"],
+            config["fog"],
+            config["wetness"],
+            config["cloudiness"],
+            config["damage"]
+        )
+
+        sim.weather=w
+
+        sim.set_time_of_day(config["time_of_day"])
