@@ -16,6 +16,7 @@ state = lgsvl.AgentState()
 state.transform = spawns[0]
 
 forward = lgsvl.utils.transform_to_forward(spawns[0])
+#right = lgsvl.utils.transform_to_right(spawns[1])
 
 # Agents can be spawned with a velocity. Default is to spawn with 0 velocity
 state.velocity = 20 * forward
