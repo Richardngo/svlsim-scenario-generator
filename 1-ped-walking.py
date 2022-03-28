@@ -10,16 +10,22 @@ if sim.current_scene == lgsvl.wise.DefaultAssets.map_borregasave:
 else:
     sim.load(lgsvl.wise.DefaultAssets.map_borregasave)
 
+
 spawns = sim.get_spawn()
 
 state = lgsvl.AgentState()
 state.transform = spawns[0]
 
-forward = lgsvl.utils.transform_to_forward(spawns[0])
-#right = lgsvl.utils.transform_to_right(spawns[1])
+
+npc = sim.add_agent("Bob", lgsvl.AgentType.PEDESTRIAN)
+waypoints = [
+    lgsvl.WalkWaypoint(lgsvl.Vector(1,0,3), 5, 0),
+    lgsvl.WalkWaypoint(lgsvl.Vector(5,0,3), 10, 0),
+    lgsvl.WalkWaypoint(lgsvl.Vector(1,0,5), 5, 0),
+]
+npc.follow(waypoints, loop=False)
 
 # Agents can be spawned with a velocity. Default is to spawn with 0 velocity
-state.velocity = 20 * forward
 ego = sim.add_agent(env.str("LGSVL__VEHICLE_0", lgsvl.wise.DefaultAssets.ego_lincoln2017mkz_apollo5), lgsvl.AgentType.EGO, state)
 
 # The bounding box of an agent are 2 points (min and max) such that the box formed from those 2 points completely encases the agent
